@@ -213,67 +213,39 @@ local function NOFLY()
     pcall(function() workspace.CurrentCamera.CameraType = Enum.CameraType.Custom end)
 end
 
-
 local screenGui = Instance.new("ScreenGui", player.PlayerGui)
 screenGui.Name = "FlyGui"
 screenGui.ResetOnSpawn = false
 
-local frame = Instance.new("Frame", screenGui)
-frame.Size = UDim2.new(0, 150, 0, 80)
-frame.Position = UDim2.new(0.5, -75, 0.5, -40)
-frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-frame.Active = true
-frame.Draggable = true
-frame.BorderSizePixel = 0
-frame.Name = "FlyFrame"
+local flyButton = Instance.new("TextButton", screenGui)
+flyButton.Size = UDim2.new(0, 150, 0, 50)
+flyButton.Position = UDim2.new(0.5, -75, 0.5, -25)
+flyButton.BackgroundColor3 = Color3.fromRGB(100, 200, 255)
+flyButton.TextColor3 = Color3.new(1, 1, 1)
+flyButton.Font = Enum.Font.SourceSansBold
+flyButton.TextSize = 20
+flyButton.Text = "FLY : OFF"
+flyButton.Name = "FlyToggleButton"
 
-local title = Instance.new("TextLabel", frame)
-title.Size = UDim2.new(1, 0, 0, 20)
-title.BackgroundTransparency = 1
-title.Text = "Fly Toggle"
-title.TextColor3 = Color3.new(1, 1, 1)
-title.Font = Enum.Font.SourceSansBold
-title.TextSize = 18
+local uicorner = Instance.new("UICorner", flyButton)
+uicorner.CornerRadius = UDim.new(0, 12)
 
-local flyOnBtn = Instance.new("TextButton", frame)
-flyOnBtn.Size = UDim2.new(0.45, -5, 0, 40)
-flyOnBtn.Position = UDim2.new(0, 5, 0, 30)
-flyOnBtn.Text = "Fly ON"
-flyOnBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-flyOnBtn.TextColor3 = Color3.new(1, 1, 1)
-flyOnBtn.Font = Enum.Font.SourceSansBold
-flyOnBtn.TextSize = 18
-flyOnBtn.Name = "FlyOnButton"
-
-local flyOffBtn = Instance.new("TextButton", frame)
-flyOffBtn.Size = UDim2.new(0.45, -5, 0, 40)
-flyOffBtn.Position = UDim2.new(0.55, 0, 0, 30)
-flyOffBtn.Text = "Fly OFF"
-flyOffBtn.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
-flyOffBtn.TextColor3 = Color3.new(1, 1, 1)
-flyOffBtn.Font = Enum.Font.SourceSansBold
-flyOffBtn.TextSize = 18
-flyOffBtn.Name = "FlyOffButton"
-
-
-flyOnBtn.MouseButton1Click:Connect(function()
-    if not FLYING then
-        if not IsOnMobile then
-            sFLY()
-        else
-            mobilefly(player)
-        end
-        FLYING = true
-    end
-end)
-
-flyOffBtn.MouseButton1Click:Connect(function()
-    if FLYING then
-        if not IsOnMobile then
-            NOFLY()
-        else
-            unmobilefly(player)
-        end
-        FLYING = false
-    end
+flyButton.MouseButton1Click:Connect(function()
+	if not FLYING then
+		if not IsOnMobile then
+			sFLY()
+		else
+			mobilefly(player)
+		end
+		FLYING = true
+		flyButton.Text = "FLY : ON"
+	else
+		if not IsOnMobile then
+			NOFLY()
+		else
+			unmobilefly(player)
+		end
+		FLYING = false
+		flyButton.Text = "FLY : OFF"
+	end
 end)
